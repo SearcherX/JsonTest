@@ -13,13 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@Order(2)
+@Order(1)
 public class LoggerFilter extends HttpFilter {
     Logger logger = LoggerFactory.getLogger(LoggerFilter.class);
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        logger.info("Remote host: " + request.getRemoteHost() + ", Requested URI: " + request.getRequestURI());
         chain.doFilter(request, response);
+        if (response.getStatus() == 200)
+            logger.info("Remote host: " + request.getRemoteHost() + ", Requested URI: " + request.getRequestURI());
+        else
+            logger.error("Error. Status: " + response.getStatus());
     }
 }
