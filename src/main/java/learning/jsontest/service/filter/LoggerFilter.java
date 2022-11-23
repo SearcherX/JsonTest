@@ -21,8 +21,10 @@ public class LoggerFilter extends HttpFilter {
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         chain.doFilter(request, response);
         if (response.getStatus() == 200)
-            logger.info("Remote host: " + request.getRemoteHost() + ", Requested URI: " + request.getRequestURI());
+            logger.info("Remote host: " + request.getRemoteHost() + ", Requested URI: " +
+                    request.getRequestURI() + ", Status: OK");
         else
-            logger.error("Error. Status: " + response.getStatus());
+            logger.error("Remote host: " + request.getRemoteHost() + ", Requested URI: " +
+                    request.getRequestURI() + ", Error. Status: " + response.getStatus());
     }
 }
